@@ -1,0 +1,32 @@
+---
+#x
+Parameters:
+  DBUsername:
+    Type: String
+    NoEcho: true
+  DBPassword:
+    Type: String
+    NoEcho: true
+
+Resources:
+  ReallyImportantDBInstance:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      DBName: ReallyImportantDB
+      Engine: MySQL
+      MasterUsername:
+        Ref: DBUsername
+      MasterUserPassword:
+        Ref: DBPassword
+      DBSecurityGroups:
+        - Ref: DBSecurityGroup
+      DBInstanceClass: db.t2.micro
+      AllocatedStorage: 5
+      StorageEncrypted: false
+
+  DBSecurityGroup:
+    Type: AWS::RDS::DBSecurityGroup
+    Properties:
+      DBSecurityGroupIngress:
+        CIDRIP: 10.1.2.3/32
+      GroupDescription: Frontend Access
